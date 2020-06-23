@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.zhangxin.shop</groupId>
+  <artifactId>zxshop-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>zxshop-user-interface</module>
+  	<module>zxshop-goods-interface</module>
+  	<module>zxshop-user-service</module>
+  	<module>zxshop-goods-service</module>
+  	<module>zxshop-manager</module>
+  	<module>zxshop-web</module>
+  </modules>
+</project>
