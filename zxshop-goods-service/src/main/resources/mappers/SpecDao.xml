@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.bawei.zxshop.dao.SpecDao">
+ 
+ 	<insert id="addSpec" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+ 		INSERT INTO `haoge`.`hg_spec` (`spec_name`) VALUES (#{specName})	
+ 	</insert>
+ 	<insert id="addOption">
+ 		INSERT INTO `haoge`.`hg_spec_option` (`option_name`, `spec_id`, `orders`) VALUES (#{optionName},#{specid},#{orders})
+ 	</insert>
+ 	<delete id="delOption">
+ 		delete from hg_spec_option where id in 
+ 		<foreach collection="array" open="(" close=")" separator="," item="id">
+ 			#{id}
+ 		</foreach>
+ 	</delete>
+ 	 	<delete id="delSpec">
+ 		delete from hg_spec where id in 
+ 		<foreach collection="array" open="(" close=")" separator="," item="id">
+ 			#{id}
+ 		</foreach>
+ 	</delete>
+ 	<update id="update">
+ 		UPDATE `haoge`.`hg_spec` SET `spec_name`=#{specName} WHERE (`id`=#{id})
+ 	</update>
+ 	<resultMap type="spec" id="SpecMap">
+ 		<id column="id" property="id"/>
+ 		<collection property="options" column="id" select="queryOptions"></collection>
+ 	</resultMap>
+ 	<select id="queryOptions" resultType="specOption">
+ 		select * from hg_spec_option where spec_id=#{spec_id}
+ 	</select>
+ 	<select id="list" resultMap="SpecMap">
+ 		select * from hg_spec
+ 		<where>
+ 			<if test="specName!=null and specName!=''">
+ 			spec_name like concat('%',#{specName},'%')
+ 			</if>
+ 		</where>
+ 	</select>
+ 	<select id="findById" resultMap="SpecMap">
+ 		select * from hg_spec where id=#{id}
+ 	</select>
+ </mapper>

@@ -157,7 +157,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.20.v20190813</version>
+				<version>9.4.20.v20190813</version><!--$NO-MVN-MAN-VER$-->
 				<configuration>
 					<httpConnector>
 						<!-- 端口号 -->
