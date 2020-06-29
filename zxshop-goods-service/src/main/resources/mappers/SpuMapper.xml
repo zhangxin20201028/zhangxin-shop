@@ -18,8 +18,8 @@
  	</delete>
  	<resultMap type="spu" id="SpuMap">
  		<id column="id" property="id"/>
- 		<association property="category" column="category_id" select="com.bawei.hgshop.dao.CategoryDao.findById"></association>
- 		<association property="brand" column="brand_id" select="com.bawei.hgshop.dao.BrandDao.findById"></association>
+ 		<association property="category" column="category_id" select="com.bawei.zxshop.dao.CategoryDao.findById"></association>
+ 		<association property="brand" column="brand_id" select="com.bawei.zxshop.dao.BrandDao.findById"></association>
  	</resultMap>
  	<select id="list" resultMap="SpuMap">
  		select * from hg_spu 

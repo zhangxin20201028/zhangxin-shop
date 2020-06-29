@@ -9,10 +9,10 @@ public class SpuVo extends Spu{
 	 */
 	private static final long serialVersionUID = 1L;
 	int pageNum=1;
-	int pageSize=5;
+	int pageSize=15;
 	String key;//查询的关键字 只要name 或者 caption 当中有一个字段匹配即可
 	// 排序方式
-	String oederType="ASC";
+	String orderType="ASC";
 	//排序名称
 	String orderColumn="";
 	public int getPageNum() {
@@ -33,11 +33,11 @@ public class SpuVo extends Spu{
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public String getOederType() {
-		return oederType;
+	public String getOrderType() {
+		return orderType;
 	}
-	public void setOederType(String oederType) {
-		this.oederType = oederType;
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
 	}
 	public String getOrderColumn() {
 		return orderColumn;
@@ -47,26 +47,13 @@ public class SpuVo extends Spu{
 	}
 	@Override
 	public String toString() {
-		return "SpuVo [pageNum=" + pageNum + ", pageSize=" + pageSize + ", key=" + key + ", oederType=" + oederType
+		return "SpuVo [pageNum=" + pageNum + ", pageSize=" + pageSize + ", key=" + key + ", orderType=" + orderType
 				+ ", orderColumn=" + orderColumn + "]";
 	}
-	public SpuVo(Integer id, String goodsName, int isMarketable, String caption, String smallPic, int pageNum,
-			int pageSize, String key, String oederType, String orderColumn) {
-		super(id, goodsName, isMarketable, caption, smallPic);
-		this.pageNum = pageNum;
-		this.pageSize = pageSize;
-		this.key = key;
-		this.oederType = oederType;
-		this.orderColumn = orderColumn;
-	}
-	public SpuVo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public SpuVo(Integer id, String goodsName, int isMarketable, String caption, String smallPic) {
-		super(id, goodsName, isMarketable, caption, smallPic);
-		// TODO Auto-generated constructor stub
-	}
+	
+	
+	
+	
 	
 	
 }

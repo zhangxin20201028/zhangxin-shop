@@ -1,5 +1,7 @@
 package com.bawei.zxshop.service;
 
+import java.util.List;
+
 import com.bawei.zxshop.pojo.Spec;
 import com.github.pagehelper.PageInfo;
 
@@ -13,6 +15,10 @@ public interface SpecService {
 	int update(Spec spec);
 	//列表
 	PageInfo<Spec> list(int pageNum,int pageSize,Spec spec);
+	
+	//获取全部规格
+	List<Spec> listAll();
+	
 	//回显
 	Spec getById(int id);
 }
