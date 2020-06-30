@@ -30,7 +30,7 @@
  		<collection property="options" column="id" select="queryOptions"></collection>
  	</resultMap>
  	<select id="queryOptions" resultType="specOption">
- 		select * from hg_spec_option where spec_id=#{spec_id}
+ 		select * from hg_spec_option where spec_id=#{specid}
  	</select>
  	<select id="list" resultMap="SpecMap">
  		select * from hg_spec
@@ -46,5 +46,8 @@
  	
  	<select id="listAll" resultType="spec">
  		select * from hg_spec order by spec_name asc
+ 	</select>
+ 	<select id="listOptionByskuId" resultType="specOption">
+ 		select spec_option_id as id, spec_id as specid from hg_sku_spec where sku_id=#{value}
  	</select>
  </mapper>

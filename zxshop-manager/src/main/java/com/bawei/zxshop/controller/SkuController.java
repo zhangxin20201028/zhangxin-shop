@@ -101,4 +101,39 @@ public class SkuController {
 		sku.setCartThumbnail(fileUtils.upload(cartThumbnailFile));
 		return skuService.add(sku)>0?"ok":"failed";
 	}
+	
+	@RequestMapping("toUpdate")
+	public String toUpdate(Model model,int id) {
+		
+		Sku sku = skuService.getById(id);
+		model.addAttribute("sku", sku);
+		//获取规格
+		List<Spec> specList = specService.listAll();
+		model.addAttribute("specList", specList);
+		return "sku/update";
+	}
+	
+	@RequestMapping("update")
+	@ResponseBody
+	public String update(Model model,Sku sku,@RequestParam("imageFile")MultipartFile imageFile,@RequestParam("cartThumbnailFile")MultipartFile cartThumbnailFile) {
+		List<SpecOption> list = sku.getOptions();
+		//数据清理
+		for (int i = list.size()-1; i >=0; i--) {
+			SpecOption option = list.get(i);
+			if(null==option.getSpecid()|| 0==option.getSpecid()) {
+				list.remove(i);
+			}
+		}
+		
+		sku.setImage(fileUtils.upload(imageFile));
+		sku.setCartThumbnail(fileUtils.upload(cartThumbnailFile));
+		return skuService.update(sku)>0?"ok":"failed";
+	}
+	@RequestMapping("del")
+	@ResponseBody
+	public String del(Model model,@RequestParam("ids[]") int[] ids) {
+		
+		return skuService.delete(ids)>0?"ok":"failed";
+		
+	}
 }

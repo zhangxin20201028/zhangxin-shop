@@ -12,7 +12,7 @@ public interface SkuDao {
 
 	int insert(Sku sku);
 
-	int insertSpecOption(@Param("skuId")Integer id,@Param("opt") SpecOption specOption);
+	int insertSpecOption(@Param("skuId")int id,@Param("opt") SpecOption specOption);
 	
 	Sku findById(int id);
 	int update(Sku sku);

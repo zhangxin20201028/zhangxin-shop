@@ -23,16 +23,16 @@
 			<div class="form-group row">
 				<label for="goodsName" class="col-sm-2 col-form-label">spu名称</label>
 				<div class="col-sm-4">
-					<input type="hidden" name="spuId" value="${spu.id}">
-					<input type="text" class="form-control" name="goodsName" id="goodsName"  value="${spu.goodsName}">
+					<input type="hidden" name="spuId" value="${sku.spu.id}">
+					<input type="text" class="form-control" name="goodsName" id="goodsName"  value="${sku.spu.goodsName}">
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<label for="skutitle" class="col-sm-2 col-form-label">sku名称</label>
 				<div class="col-sm-4">
-					<input type="hidden" name="spuId" value="${spu.id}">
-					<input type="text" class="form-control" name="title">
+					<input type="hidden" name="id" value="${sku.id}">
+					<input type="text" class="form-control" name="title" value="${sku.title}">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -44,21 +44,23 @@
 							<th>属性值</th>
 							<th><button type="button" class="btn btn-danger btn-sm" onclick="addLine()">添加</button></th>
 						</tr>
+						<c:forEach items="${sku.options}" var="opt" varStatus="index">
 						<tr>
 							<td>
-								<select name="options[0].specid" onchange="specChange($(this))">
+								<select class="specSelect" name="options[${index.index}].specId" data-toggle="${opt.id}" onchange="specChange($(this),${opt.id})">
 									<c:forEach items="${specList}" var="spec">
-										<option value="${spec.id}">${spec.specName}</option>
+										<option value="${spec.id}" ${opt.specid==spec.id?'selected':''}>${spec.specName}</option>
 									</c:forEach>
 								</select>
 							</td>
 							<td>
-								<select name="options[0].id"></select>
+								<select name="options[${index.index}].id"></select>
 							</td>
 							<td>
 								<button type="button" class="btn btn-danger btn-sm" onclick="removeLine($(this))">移除</button>
 							</td>
 						</tr>
+						</c:forEach>
 					</table>
 				</div>
 			</div>
@@ -66,33 +68,33 @@
 			<div class="form-group row">
 				<label for="sellPoint" class="col-sm-2 col-form-label">卖点</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="sellPoint" name="sellPoint">
+					<input type="text" class="form-control" id="sellPoint" name="sellPoint" value="${sku.sellPoint}">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="price" class="col-sm-2 col-form-label">价格</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="price" name="price">
+					<input type="text" class="form-control" id="price" name="price" value="${sku.price}">
 				</div>
 				<label for="stockCount" class="col-sm-2 col-form-label">库存</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="stockCount" name="stockCount">
+					<input type="text" class="form-control" id="stockCount" name="stockCount" value="${sku.stockCount}">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="costPrice" class="col-sm-2 col-form-label">成本</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="costPrice" name="costPrice">
+					<input type="text" class="form-control" id="costPrice" name="costPrice" value="${sku.costPrice}">
 				</div>
-				<label for="maketPrice" class="col-sm-2 col-form-label">市价</label>
+				<label for="marketPrice" class="col-sm-2 col-form-label">市价</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="maketPrice" name="maketPrice">
+					<input type="text" class="form-control" id="marketPrice" name="marketPrice" value="${sku.marketPrice}">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="barcode" class="col-sm-2 col-form-label">条形码</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="barcode" name="barcode">
+					<input type="text" class="form-control" id="barcode" name="barcode" value="${sku.barcode}">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -117,14 +119,18 @@
 </body>
 <script type="text/javascript">
 	//两个下拉框联动
-	function specChange(selObj) {
+	function specChange(selObj,selId) {
 		//得到规格Id
 		var specId=selObj.val();
 		$.post('./sku/getSpecOptions',{specId:specId},function(data){
 			var selOption=selObj.parent().next().children(0);
 			selOption.empty();
 			for (var i = 0; i < data.length; i++) {
-				selOption.append("<option value="+data[i].id+">"+data[i].optionName+"</option>");
+				if(selId==data[i].id){
+					selOption.append("<option value="+data[i].id+" selected>"+data[i].optionName+"</option>");	
+				}else{
+					selOption.append("<option value="+data[i].id+">"+data[i].optionName+"</option>");
+				}
 			}
 		})
 	}
@@ -135,7 +141,7 @@
 	function addLine() {
 		$('#specTable').append(`
 				<tr>
-	      		<td><select name="options[`+index+`].specid" onchange="specChange($(this))">
+	      		<td><select name="options[`+index+`].specId" onchange="specChange($(this),0)">
 	      			<c:forEach items="${specList}" var="spec">
 	      		 		<option value="${spec.id}">${spec.specName}</option>
 	      		 		</c:forEach>
@@ -152,20 +158,28 @@
 		index++;
 	}
 	
+	//specChange($(this))
+	//触发回显
+	$(".specSelect").each(function(){
+		var optId=$(this).attr('data-toggle')
+		specChange($(this))
+	})
+	
+	
 	function commitData() {
 		var formData = new FormData($("#skuForm")[0])
 		$.ajax({
-			url:"./sku/add",
+			url:"./sku/update",
 			type:"post",
 			processData:false,
 			contentType:false,
 			data:formData,
 			success:function(data){
 				if(data=="ok"){
-					alert("添加成功");
+					alert("修改成功");
 					$("#workContent").load('./sku/list');
 				}else{
-					alert("添加失败");
+					alert("修改失败");
 				}
 			}
 		});
