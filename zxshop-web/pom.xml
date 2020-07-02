@@ -168,7 +168,7 @@
 				<configuration>
 					<httpConnector>
 						<!-- 端口号 -->
-						<port>9002</port>
+						<port>9003</port>
 						<!-- <port>9094</port> -->
 						<!-- 项目访问路径 -->
 						<host>0.0.0.0</host>
@@ -178,7 +178,7 @@
 							<!-- 虚拟路径 -->
 							<contextPath>/pic</contextPath>
 							<!-- 物理路径 -->
-							<resourceBase>d:/pic/</resourceBase>
+							<resourceBase>e:/pic/</resourceBase>
 						</jettyWebAppContext>
 					</contextHandlers>
 					<scanIntervalSeconds>1</scanIntervalSeconds>
@@ -193,7 +193,7 @@
 					<path>/</path>
 					<uriEncoding>UTF-8</uriEncoding>
 					<contextReloadable>true</contextReloadable>
-					<staticContextDocbase>D://pic</staticContextDocbase>
+					<staticContextDocbase>e://pic</staticContextDocbase>
 					<staticContextPath>/pic</staticContextPath>
 					<!-- 自动部署开始 -->
 					    <url>http://192.168.110.134:8880/manager/text</url>

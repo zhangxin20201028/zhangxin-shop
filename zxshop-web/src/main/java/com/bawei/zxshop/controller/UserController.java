@@ -1,5 +1,7 @@
 package com.bawei.zxshop.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
@@ -10,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bawei.zxshop.common.MsgData;
+import com.bawei.zxshop.pojo.Cart;
 import com.bawei.zxshop.pojo.User;
+import com.bawei.zxshop.service.CartService;
 import com.bawei.zxshop.service.UserService;
 /**
  * 
@@ -25,6 +30,9 @@ public class UserController {
 
 	@Reference
 	UserService userService;
+	
+	@Reference
+	CartService cartService;
 	
 	//去登陆
 	@GetMapping("login")
@@ -41,7 +49,7 @@ public class UserController {
 		
 		//登录成功
 		request.getSession().setAttribute("USERSESSION", loginUser);
-		return "user/home";
+		return "redirect:home";
 	}	
 	
 	@RequestMapping("checkExist")
@@ -69,5 +77,35 @@ public class UserController {
 	@RequestMapping("home")
 	public String home() {
 		return "user/home";
+	}
+	/**
+	 * 
+	 * @Title: addCart 
+	 * @Description: 加入购物车
+	 * @param request
+	 * @param cart
+	 * @return
+	 * @return: MsgData
+	 */
+	@RequestMapping("addCart")
+	@ResponseBody
+	public MsgData addCart(HttpServletRequest request,Cart cart) {
+		User loginUser= (User) request.getSession().getAttribute("USERSESSION");
+		if (loginUser==null) {
+			return new MsgData(1,"对不起,您尚未登录");
+		}
+		//设置用户ID
+		cart.setUid(loginUser.getUid());
+		int i=cartService.add(cart);
+		return i>0?new MsgData("保存成功"):new MsgData(2,"加入失败请稍后再试");
+	
+	}
+	
+	@RequestMapping("cartlist")
+	public String cartlist(HttpServletRequest request) {
+		User loginUser= (User) request.getSession().getAttribute("USERSESSION");
+		List<Cart> list = cartService.list(loginUser.getUid());
+		request.setAttribute("cartList", list);
+		return "user/cartList";
 	}
 }

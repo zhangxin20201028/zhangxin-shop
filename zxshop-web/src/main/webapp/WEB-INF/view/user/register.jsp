@@ -52,8 +52,8 @@
   </div>
 
   <div class="form-label-group">
-    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="密码" required="">
-    <label for="inputPassword">密码</label>
+    <input type="password" id="password" class="form-control" name="password" placeholder="密码" required="">
+    <label for="password">密码</label>
   </div>
    <div class="form-label-group">
     <input type="password" id="repassword" class="form-control" name="repassword" placeholder="密码" required="">
@@ -79,6 +79,9 @@
  			},
  			password:{
  				minlength:4
+ 			},
+ 			repassword:{
+ 				equalTo:'#password'
  			}
  		},
  		messages:{
@@ -89,6 +92,9 @@
  			},
  			password:{
  				minlength:'密码要超过4位数'
+ 			},
+ 			repassword:{
+ 				equalTo:'两次密码不一致'
  			}
  		}
  	})

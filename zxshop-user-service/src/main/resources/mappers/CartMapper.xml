@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.bawei.zxshop.dao.CartDao">
+  	<!-- 	int add(Cart cart);-->
+  	<insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	    INSERT INTO `haoge`.`hg_cart` (`uid`, `skuid`, `pnum`, `createtime`, `updatetime`) VALUES (#{uid}, #{skuid},#{pnum},now(), now())
+	</insert>
+	<!--  int delete(int[] ids);-->
+			<delete id="delete">
+				delete from hg_cart where id in
+				<foreach collection="array" open="(" close=")" item="," separator=",">
+					#{id}
+				</foreach>
+			</delete>
+			
+	<resultMap type="cart" id="CarMap">
+		<id column="id" property="id"/>
+		<association property="sku" column="skuid" select="getSkuById"></association>
+	</resultMap>
+	<select id="getSkuById" resultType="sku">
+		select id,title,price,cart_thumbnail from hg_sku where id=#{id}
+	</select>
+	<!--  List<Cart> list(int uid);-->
+		<select id="list" resultMap="CarMap">
+			select * from hg_cart where uid=#{value}
+		</select>
+	<!-- List<Cart> listById(int[] ids); -->
+		<select id="listById" resultMap="CarMap">
+			select * from hg_cart where id in
+			<foreach collection="array" open="(" close=")" item="," separator=",">
+					#{id}
+				</foreach>
+		</select>
+	</mapper>
